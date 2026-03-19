@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BharatStream — India's Sovereign Video Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --saffron: #FF6B00;
+  --saffron-light: #FF8C33;
+  --saffron-pale: #FFF0E6;
+  --green-india: #1A7A4A;
+  --green-light: #E8F5EE;
+  --navy: #0F1A2E;
+  --navy-mid: #1C2F4A;
+  --navy-light: #2A4066;
+  --cream: #FAFAF7;
+  --cream-mid: #F2F0EB;
+  --text-primary: #0F1A2E;
+  --text-secondary: #5A6A7E;
+  --text-muted: #8A9BB0;
+  --border: rgba(15,26,46,0.08);
+  --border-strong: rgba(15,26,46,0.14);
+  --white: #ffffff;
+  --purple: #5B3FD4;
+  --purple-light: #EEE9FF;
+  --amber: #E8A020;
+  --amber-light: #FFF5E0;
+  --red: #D93025;
+  --teal: #0E8F7A;
+  --teal-light: #E5F5F2;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 { font-family: 'Syne', sans-serif; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,250,247,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex; align-items: center; gap: 0;
+  height: 56px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800;
+  color: var(--navy); text-decoration: none; margin-right: 40px;
+}
+.nav-logo .logo-mark {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--saffron); display: flex; align-items: center; justify-content: center;
+}
+.nav-logo .logo-mark svg { display: block; }
+.nav-tabs { display: flex; gap: 2px; flex: 1; }
+.nav-tab {
+  padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  color: var(--text-secondary); cursor: pointer; border: none; background: none;
+  transition: all 0.15s; white-space: nowrap;
+}
+.nav-tab:hover { background: var(--cream-mid); color: var(--text-primary); }
+.nav-tab.active { background: var(--saffron-pale); color: var(--saffron); }
+.nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.btn-upload {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--saffron); color: white; border: none;
+  padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+}
+.btn-upload:hover { background: var(--saffron-light); transform: translateY(-1px); }
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--navy); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+}
+
+/* ── SECTIONS ── */
+.section { display: none; animation: fadeIn 0.3s ease; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── HOME FEED ── */
+.home-layout { display: grid; grid-template-columns: 220px 1fr 300px; gap: 0; min-height: calc(100vh - 56px); }
+
+/* Sidebar */
+.sidebar {
+  border-right: 1px solid var(--border);
+  padding: 16px 12px;
+  position: sticky; top: 56px; height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+.sidebar-section { margin-bottom: 20px; }
+.sidebar-label { font-size: 10px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.8px; text-transform: uppercase; padding: 0 8px 8px; }
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px;
+  font-size: 13px; color: var(--text-secondary); cursor: pointer;
+  transition: all 0.15s; margin-bottom: 1px;
+}
+.sidebar-item:hover { background: var(--cream-mid); color: var(--text-primary); }
+.sidebar-item.active { background: var(--saffron-pale); color: var(--saffron); font-weight: 500; }
+.sidebar-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.7; }
+.lang-selector { padding: 8px 10px; }
+.lang-chip-small {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; margin: 2px; cursor: pointer;
+  border: 1px solid var(--border-strong); background: white; color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.lang-chip-small.active { background: var(--navy); color: white; border-color: var(--navy); }
+
+/* Feed */
+.feed { padding: 20px 24px; }
+.feed-hero {
+  background: var(--navy); border-radius: 16px;
+  padding: 28px 32px; margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  overflow: hidden; position: relative;
+}
+.feed-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(255,107,0,0.3) 0%, transparent 65%);
+}
+.feed-hero-text { position: relative; z-index: 1; }
+.feed-hero-text h2 { font-size: 22px; color: white; margin-bottom: 6px; }
+.feed-hero-text p { font-size: 13px; color: rgba(255,255,255,0.65); max-width: 340px; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,107,0,0.2); border: 1px solid rgba(255,107,0,0.4); border-radius: 20px; padding: 4px 12px; margin-bottom: 10px; }
+.hero-badge span { font-size: 11px; color: var(--saffron-light); font-weight: 500; }
+.feed-hero-visual { position: relative; z-index: 1; }
+.play-big {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--saffron); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 0 0 12px rgba(255,107,0,0.15);
+}
+
+.feed-section-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+.exclusive-badge { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500; background: var(--saffron); color: white; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.3px; }
+
+.video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+.video-card { cursor: pointer; border-radius: 10px; overflow: hidden; transition: transform 0.18s; }
+.video-card:hover { transform: translateY(-3px); }
+.video-thumb {
+  aspect-ratio: 16/9; border-radius: 10px; overflow: hidden;
+  position: relative; background: var(--cream-mid);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 8px;
+}
+.video-thumb-bg { position: absolute; inset: 0; }
+.thumb-label { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.75); color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+.thumb-live { position: absolute; top: 8px; left: 8px; background: #D93025; color: white; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; letter-spacing: 0.3px; }
+.thumb-feature { position: absolute; top: 8px; left: 8px; background: var(--saffron); color: white; font-size: 9px; padding: 2px 7px; border-radius: 4px; font-weight: 600; letter-spacing: 0.3px; }
+.video-title-text { font-size: 13px; font-weight: 500; line-height: 1.4; margin-bottom: 4px; }
+.video-meta-text { font-size: 11px; color: var(--text-muted); }
+.creator-row { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.creator-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; }
+
+/* Right panel */
+.right-panel { border-left: 1px solid var(--border); padding: 16px 14px; position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; }
+.rp-section { margin-bottom: 20px; }
+.rp-title { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 10px; }
+.mood-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.mood-chip {
+  padding: 8px 10px; border-radius: 8px; font-size: 12px; text-align: center;
+  cursor: pointer; border: 1px solid var(--border); background: white;
+  transition: all 0.15s; font-weight: 500;
+}
+.mood-chip:hover { border-color: var(--saffron); background: var(--saffron-pale); color: var(--saffron); }
+.mood-chip.active { background: var(--saffron); color: white; border-color: var(--saffron); }
+.collab-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.collab-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: white; }
+.collab-info { flex: 1; }
+.collab-name { font-size: 12px; font-weight: 500; }
+.collab-sub { font-size: 10px; color: var(--text-muted); }
+.collab-btn { font-size: 10px; padding: 3px 8px; border-radius: 6px; border: 1px solid var(--saffron); color: var(--saffron); background: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+
+/* ── FEATURES SECTION ── */
+.features-page { padding: 40px 48px; max-width: 1200px; margin: 0 auto; }
+.features-header { text-align: center; margin-bottom: 56px; }
+.features-header .overline { font-size: 12px; font-weight: 600; color: var(--saffron); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.features-header h1 { font-size: 40px; font-weight: 800; line-height: 1.15; margin-bottom: 16px; }
+.features-header h1 span { color: var(--saffron); }
+.features-header p { font-size: 16px; color: var(--text-secondary); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+.feature-card {
+  background: white; border-radius: 14px; padding: 24px;
+  border: 1px solid var(--border);
+  transition: all 0.2s; cursor: pointer; position: relative; overflow: hidden;
+}
+.feature-card:hover { border-color: var(--saffron); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(255,107,0,0.1); }
+.feature-card.highlight { background: var(--navy); border-color: var(--navy); }
+.feature-card.highlight .feature-title, .feature-card.highlight .feature-desc { color: white; }
+.feature-card.highlight .feature-desc { color: rgba(255,255,255,0.65); }
+.feature-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 20px; }
+.fi-saffron { background: var(--saffron-pale); }
+.fi-green { background: var(--green-light); }
+.fi-purple { background: var(--purple-light); }
+.fi-amber { background: var(--amber-light); }
+.fi-teal { background: var(--teal-light); }
+.fi-navy { background: rgba(255,255,255,0.1); }
+.feature-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+.youtube-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(217,48,37,0.08); border: 1px solid rgba(217,48,37,0.2); border-radius: 6px; padding: 3px 8px; font-size: 10px; color: var(--red); font-weight: 500; }
+.bharat-badge { display: inline-flex; align-items: center; gap: 5px; background: var(--saffron-pale); border: 1px solid rgba(255,107,0,0.25); border-radius: 6px; padding: 3px 8px; font-size: 10px; color: var(--saffron); font-weight: 500; }
+
+/* ── ROADMAP SECTION ── */
+.roadmap-page { padding: 40px 48px; max-width: 1100px; margin: 0 auto; }
+.roadmap-header { margin-bottom: 40px; }
+.roadmap-header .overline { font-size: 12px; font-weight: 600; color: var(--saffron); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.roadmap-header h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+.roadmap-header p { font-size: 14px; color: var(--text-secondary); max-width: 560px; line-height: 1.7; }
+
+.roadmap-timeline { position: relative; }
+.roadmap-timeline::before {
+  content: ''; position: absolute; left: 120px; top: 0; bottom: 0;
+  width: 2px; background: var(--border-strong); border-radius: 2px;
+}
+
+.phase { display: flex; gap: 32px; margin-bottom: 0; position: relative; }
+.phase-time {
+  width: 120px; flex-shrink: 0; text-align: right;
+  padding-top: 18px; padding-right: 24px;
+}
+.phase-quarter { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.phase-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.phase-dot {
+  position: absolute; left: 113px; top: 22px;
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 3px solid white; z-index: 2;
+  box-shadow: 0 0 0 2px var(--border-strong);
+}
+.phase-dot.done { background: var(--green-india); box-shadow: 0 0 0 2px var(--green-india); }
+.phase-dot.active { background: var(--saffron); box-shadow: 0 0 0 4px rgba(255,107,0,0.2); }
+.phase-dot.upcoming { background: var(--cream-mid); box-shadow: 0 0 0 2px var(--border-strong); }
+.phase-content { flex: 1; padding: 16px 0 32px 32px; }
+.phase-name { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.phase-status { font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
+.ps-done { background: var(--green-light); color: var(--green-india); }
+.ps-active { background: var(--saffron-pale); color: var(--saffron); }
+.ps-upcoming { background: var(--cream-mid); color: var(--text-muted); }
+.phase-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
+.feature-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500;
+  border: 1px solid var(--border); background: white; color: var(--text-primary);
+}
+.pill-done { background: var(--green-light); border-color: rgba(26,122,74,0.2); color: var(--green-india); }
+.pill-active { background: var(--saffron-pale); border-color: rgba(255,107,0,0.25); color: var(--saffron); }
+.pill-upcoming { background: var(--cream-mid); color: var(--text-muted); border-color: var(--border); }
+.pill-exclusive { background: var(--navy); color: white; border-color: var(--navy); }
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.metrics-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.metric-target { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+.metric-target .mt-label { font-size: 10px; color: var(--text-muted); margin-bottom: 2px; }
+.metric-target .mt-val { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-primary); }
+
+/* ── CREATOR PAGE ── */
+.creator-page { padding: 32px 40px; max-width: 1100px; margin: 0 auto; }
+.creator-profile-bar {
+  background: var(--navy); border-radius: 16px; padding: 28px 32px;
+  display: flex; align-items: center; gap: 20px; margin-bottom: 28px;
+  position: relative; overflow: hidden;
+}
+.creator-profile-bar::after {
+  content: ''; position: absolute; right: -60px; top: -60px;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,0,0.25), transparent 70%);
+}
+.creator-big-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--saffron); display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: white;
+  border: 3px solid rgba(255,255,255,0.2); flex-shrink: 0; position: relative; z-index: 1;
+}
+.creator-info { flex: 1; position: relative; z-index: 1; }
+.creator-info h2 { font-size: 20px; color: white; margin-bottom: 4px; }
+.creator-info p { font-size: 13px; color: rgba(255,255,255,0.6); }
+.creator-stats { display: flex; gap: 24px; position: relative; z-index: 1; }
+.creator-stat { text-align: center; }
+.creator-stat .cs-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: white; }
+.creator-stat .cs-label { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+.creator-tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+.tool-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px;
+  padding: 18px; cursor: pointer; transition: all 0.15s;
+}
+.tool-card:hover { border-color: var(--saffron); box-shadow: 0 4px 16px rgba(255,107,0,0.08); }
+.tool-icon { font-size: 22px; margin-bottom: 10px; }
+.tool-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.tool-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+.tool-new { display: inline-block; font-size: 9px; font-weight: 600; background: var(--saffron); color: white; padding: 1px 6px; border-radius: 4px; margin-bottom: 6px; }
+
+.earnings-layout { display: grid; grid-template-columns: 1fr 320px; gap: 16px; }
+.earnings-main { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+.earnings-sidebar-panel { display: flex; flex-direction: column; gap: 12px; }
+.payout-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+.payout-amount-big { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--text-primary); margin: 8px 0; }
+.withdraw-btn {
+  width: 100%; padding: 10px; background: var(--green-india); color: white;
+  border: none; border-radius: 10px; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+}
+.withdraw-btn:hover { background: #15603B; }
+.upi-options { display: flex; gap: 6px; margin-top: 10px; }
+.upi-opt { flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 8px; font-size: 10px; text-align: center; color: var(--text-secondary); cursor: pointer; background: none; font-family: 'DM Sans', sans-serif; }
+.upi-opt:hover { background: var(--cream-mid); }
+.earnings-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.earnings-row:last-child { border-bottom: none; }
+.er-source { font-size: 13px; font-weight: 500; }
+.er-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.er-amount { font-size: 14px; font-weight: 600; color: var(--green-india); }
+.er-pct { font-size: 10px; color: var(--text-muted); text-align: right; margin-top: 1px; }
+
+/* Bar chart */
+.bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; margin: 16px 0 8px; }
+.bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.bar { border-radius: 4px 4px 0 0; min-height: 4px; transition: height 0.5s; width: 100%; }
+.bar-label { font-size: 9px; color: var(--text-muted); }
+
+/* ── BHARAT ONLY FEATURES ── */
+.exclusive-section { padding: 40px 48px; background: var(--navy); min-height: 100vh; }
+.exclusive-section h1 { font-size: 36px; color: white; margin-bottom: 8px; }
+.exclusive-section .sub { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 40px; }
+.ex-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.ex-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; padding: 28px; transition: all 0.2s; cursor: pointer;
+}
+.ex-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,107,0,0.4); transform: translateY(-2px); }
+.ex-num { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800; color: rgba(255,107,0,0.2); line-height: 1; margin-bottom: 12px; }
+.ex-title { font-family: 'Syne', sans-serif; font-size: 18px; color: white; margin-bottom: 10px; font-weight: 700; }
+.ex-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 16px; }
+.ex-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ex-tag { font-size: 10px; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(255,107,0,0.3); color: var(--saffron-light); }
+.vs-row { display: flex; align-items: center; gap: 8px; font-size: 12px; margin-top: 12px; }
+.vs-no { color: #ff6b6b; }
+.vs-yes { color: #6bff9e; }
+
+/* TABS bottom */
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(250,250,247,0.96); backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  display: none; padding: 8px 0 12px;
+  z-index: 100;
+}
+
+/* ── CASE STUDY ── */
+.cs-page { max-width: 1060px; margin: 0 auto; padding: 0 48px 80px; }
+
+/* Hero */
+.cs-hero {
+  background: var(--navy); border-radius: 0 0 24px 24px;
+  padding: 56px 48px 52px; margin-bottom: 56px;
+  position: relative; overflow: hidden;
+}
+.cs-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(255,107,0,0.25) 0%, transparent 60%),
+              radial-gradient(ellipse at 10% 80%, rgba(26,122,74,0.2) 0%, transparent 50%);
+}
+.cs-hero-inner { position: relative; z-index: 1; max-width: 1060px; margin: 0 auto; }
+.cs-hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,107,0,0.15); border: 1px solid rgba(255,107,0,0.35); border-radius: 20px; padding: 5px 14px; margin-bottom: 20px; }
+.cs-hero-tag span { font-size: 11px; color: var(--saffron-light); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+.cs-hero h1 { font-size: 46px; font-weight: 800; color: white; line-height: 1.1; margin-bottom: 16px; }
+.cs-hero h1 em { color: var(--saffron); font-style: normal; }
+.cs-hero-sub { font-size: 16px; color: rgba(255,255,255,0.6); max-width: 600px; line-height: 1.7; margin-bottom: 28px; }
+.cs-meta-row { display: flex; gap: 24px; flex-wrap: wrap; }
+.cs-meta-chip { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 6px 12px; font-size: 12px; color: rgba(255,255,255,0.7); }
+.cs-meta-chip strong { color: white; }
+
+/* Section headers */
+.cs-section { margin-bottom: 64px; }
+.cs-section-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid var(--border-strong); }
+.cs-section-num { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800; color: var(--saffron); opacity: 0.18; line-height: 1; flex-shrink: 0; margin-top: -6px; }
+.cs-section-title-block {}
+.cs-section-label { font-size: 11px; font-weight: 600; color: var(--saffron); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+.cs-section-title { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--text-primary); line-height: 1.2; }
+
+/* Problem Statement */
+.problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+.problem-card {
+  border-radius: 14px; padding: 24px; border: 1px solid var(--border);
+  background: white; position: relative; overflow: hidden;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.problem-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(15,26,46,0.07); }
+.problem-card.pain { border-left: 3px solid var(--red); }
+.problem-card.opportunity { border-left: 3px solid var(--green-india); }
+.pc-icon { font-size: 28px; margin-bottom: 12px; }
+.pc-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.pc-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+.pc-stat { display: inline-block; margin-top: 12px; font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+.pc-stat-label { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--text-muted); display: block; margin-top: 2px; }
+
+.problem-quote {
+  background: var(--navy); border-radius: 14px; padding: 28px 32px; margin-bottom: 28px;
+  position: relative;
+}
+.problem-quote::before { content: '"'; position: absolute; top: 12px; left: 20px; font-family: 'Syne', sans-serif; font-size: 80px; color: rgba(255,107,0,0.2); line-height: 1; }
+.pq-text { font-size: 18px; color: white; line-height: 1.6; font-weight: 400; position: relative; z-index: 1; margin-bottom: 12px; }
+.pq-text em { color: var(--saffron-light); font-style: normal; font-weight: 600; }
+.pq-source { font-size: 12px; color: rgba(255,255,255,0.45); }
+
+.problem-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.pstat { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }
+.pstat-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--saffron); }
+.pstat-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+
+/* Target User */
+.persona-layout { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
+.persona-card {
+  background: white; border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+}
+.persona-card-top {
+  background: var(--navy); padding: 28px 24px; position: relative; overflow: hidden;
+}
+.persona-card-top::after { content: ''; position: absolute; right: -40px; bottom: -40px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255,107,0,0.15); }
+.persona-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--saffron); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: white; margin-bottom: 14px; border: 3px solid rgba(255,255,255,0.15); }
+.persona-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: white; margin-bottom: 4px; }
+.persona-role { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 14px; }
+.persona-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.p-tag { font-size: 10px; padding: 3px 10px; border-radius: 20px; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.15); }
+.persona-card-body { padding: 20px 24px; }
+.persona-field { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.persona-field:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.pf-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
+.pf-val { font-size: 13px; color: var(--text-primary); line-height: 1.6; }
+
+.persona-right { display: flex; flex-direction: column; gap: 14px; }
+.persona-pain-gain { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pg-card { border-radius: 12px; padding: 18px; }
+.pg-card.pains { background: #FEF2F2; border: 1px solid rgba(217,48,37,0.12); }
+.pg-card.gains { background: var(--green-light); border: 1px solid rgba(26,122,74,0.12); }
+.pg-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+.pg-card.pains .pg-title { color: var(--red); }
+.pg-card.gains .pg-title { color: var(--green-india); }
+.pg-item { font-size: 12px; color: var(--text-secondary); line-height: 1.5; padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; gap: 8px; align-items: flex-start; }
+.pg-item:last-child { border-bottom: none; }
+.pg-item .pg-dot { flex-shrink: 0; margin-top: 4px; width: 6px; height: 6px; border-radius: 50%; }
+.pg-card.pains .pg-dot { background: var(--red); }
+.pg-card.gains .pg-dot { background: var(--green-india); }
+
+.journey-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.journey-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+.journey-steps { display: flex; gap: 0; position: relative; }
+.journey-steps::before { content: ''; position: absolute; top: 20px; left: 20px; right: 20px; height: 2px; background: var(--border-strong); z-index: 0; }
+.j-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; z-index: 1; }
+.j-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; border: 2px solid white; }
+.j-dot.done-dot { background: var(--green-india); }
+.j-dot.pain-dot { background: var(--red); }
+.j-dot.bs-dot { background: var(--saffron); }
+.j-label { font-size: 10px; text-align: center; color: var(--text-secondary); line-height: 1.4; max-width: 70px; }
+
+.why-tier1 { background: var(--saffron-pale); border: 1px solid rgba(255,107,0,0.2); border-radius: 14px; padding: 24px; }
+.wt1-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--saffron); margin-bottom: 14px; }
+.wt1-items { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.wt1-item { display: flex; gap: 10px; align-items: flex-start; }
+.wt1-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--saffron); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.wt1-text { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+.wt1-text strong { color: var(--text-primary); display: block; font-size: 12px; margin-bottom: 1px; }
+
+/* Differentiators */
+.diff-intro { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.diff-intro-col h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.diff-table { width: 100%; }
+.diff-table tr { border-bottom: 1px solid var(--border); }
+.diff-table tr:last-child { border-bottom: none; }
+.diff-table td { padding: 10px 0; font-size: 12px; vertical-align: top; }
+.diff-table .dt-dimension { color: var(--text-muted); font-weight: 500; width: 120px; flex-shrink: 0; }
+.dt-yt { color: var(--red); }
+.dt-bs { color: var(--green-india); font-weight: 500; }
+
+.diff-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.diff-card { border-radius: 12px; border: 1px solid var(--border); background: white; padding: 20px; transition: all 0.15s; }
+.diff-card:hover { border-color: var(--saffron); transform: translateY(-2px); }
+.diff-rank { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: var(--saffron); letter-spacing: 0.5px; margin-bottom: 8px; }
+.diff-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.diff-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+.diff-compare { display: flex; flex-direction: column; gap: 5px; }
+.dc-row { display: flex; align-items: flex-start; gap: 6px; font-size: 11px; }
+.dc-yt { color: var(--red); }
+.dc-bs { color: var(--green-india); font-weight: 500; }
+
+.insight-bar { background: var(--navy); border-radius: 14px; padding: 28px 32px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+.ib-text h3 { font-family: 'Syne', sans-serif; font-size: 18px; color: white; margin-bottom: 8px; }
+.ib-text p { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 520px; }
+.ib-action { background: var(--saffron); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; transition: all 0.15s; }
+.ib-action:hover { background: var(--saffron-light); transform: translateY(-1px); }
+
+/* Responsive: on small screens show label tweaks */
+@media (max-width: 1100px) {
+  .home-layout { grid-template-columns: 180px 1fr 0; }
+  .right-panel { display: none; }
+  .video-grid { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .creator-tools-grid { grid-template-columns: repeat(2, 1fr); }
+  .ex-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="logo-mark">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <polygon points="4,2 14,8 4,14" fill="white"/>
+      </svg>
+    </div>
+    BharatStream
+  </a>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('casestudy', this)">📋 Case Study</button>
+    <button class="nav-tab" onclick="showSection('home', this)">🏠 Home</button>
+    <button class="nav-tab" onclick="showSection('features', this)">✨ Features</button>
+    <button class="nav-tab" onclick="showSection('exclusive', this)">🇮🇳 India-Only</button>
+    <button class="nav-tab" onclick="showSection('creator', this)">🎬 Creator Studio</button>
+    <button class="nav-tab" onclick="showSection('roadmap', this)">🗺 Roadmap</button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-upload">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 3.5L6.5 1l3 2.5M2 10h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Upload
+    </button>
+    <div class="avatar">PW</div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════ CASE STUDY ═══════════════════════════ -->
+<div class="section active" id="casestudy">
+
+<!-- Hero -->
+<div class="cs-hero">
+  <div class="cs-hero-inner">
+    <div class="cs-hero-tag">
+      <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="#FF6B00"/></svg>
+      <span>PM Case Study · B2C · Consumer Video Platform</span>
+    </div>
+    <h1>Building <em>BharatStream</em><br>India's Sovereign Video Platform</h1>
+    <p class="cs-hero-sub">A product case study on why India's 500M internet users deserve a video platform they own — and how to build the ecosystem that replaces YouTube for Bharat.</p>
+    <div class="cs-meta-row">
+      <div class="cs-meta-chip">🎯 <strong>Target User</strong> Tier 1 Indian Creators</div>
+      <div class="cs-meta-chip">🏗 <strong>Phase</strong> 0-to-1 Build</div>
+      <div class="cs-meta-chip">📍 <strong>Market</strong> India · 500M internet users</div>
+      <div class="cs-meta-chip">⚡ <strong>Moat</strong> UPI + Data Sovereignty</div>
+    </div>
+  </div>
+</div>
+
+<div class="cs-page">
+
+  <!-- ── SECTION 1: PROBLEM STATEMENT ── -->
+  <div class="cs-section">
+    <div class="cs-section-header">
+      <div class="cs-section-num">01</div>
+      <div class="cs-section-title-block">
+        <div class="cs-section-label">Problem Statement</div>
+        <div class="cs-section-title">Why India urgently needs this</div>
+      </div>
+    </div>
+
+    <div class="problem-quote">
+      <p class="pq-text">India has <em>500 million internet users</em>, the world's largest English-speaking creator economy outside the US — yet every rupee of ad revenue flows to a US company, every piece of creator data sits on US servers, and a single US government order can silence an Indian creator overnight.</p>
+      <div class="pq-source">The core insight that makes BharatStream not just a business opportunity, but a national infrastructure problem.</div>
+    </div>
+
+    <div class="problem-stats">
+      <div class="pstat"><div class="pstat-val">500M</div><div class="pstat-label">Indian internet users with no sovereign video option</div></div>
+      <div class="pstat"><div class="pstat-val">45%</div><div class="pstat-label">of creator revenue YouTube takes before paying Indian creators</div></div>
+      <div class="pstat"><div class="pstat-val">30+ days</div><div class="pstat-label">payout delay via USD → INR conversion for Indian creators</div></div>
+      <div class="pstat"><div class="pstat-val">22</div><div class="pstat-label">official Indian languages with near-zero native-first video infrastructure</div></div>
+    </div>
+
+    <div style="height:24px"></div>
+
+    <div class="problem-grid">
+      <div class="problem-card pain">
+        <div class="pc-icon">💸</div>
+        <div class="pc-title">Creator Revenue Leakage</div>
+        <div class="pc-desc">YouTube retains 45% of ad revenue. Creators receive USD which gets converted to INR — losing 2–4% to forex. Payments take 30+ days. A creator earning ₹10L/month loses ~₹5L to the platform plus ₹20–40K in forex every single month.</div>
+        <span class="pc-stat" style="color:var(--red)">₹5L+</span>
+        <span class="pc-stat-label">lost per ₹10L earned every month</span>
+      </div>
+      <div class="problem-card pain">
+        <div class="pc-icon">⚖️</div>
+        <div class="pc-title">US Legal Jurisdiction Over Indian Content</div>
+        <div class="pc-desc">All Indian creator content is governed by US DMCA, US copyright law, and US government orders. The Indian government has no sovereignty over content that belongs to Indian citizens. A US court order can demonetise or remove an Indian creator's life work overnight.</div>
+        <span class="pc-stat" style="color:var(--red)">Zero</span>
+        <span class="pc-stat-label">Indian legal protection for creator content</span>
+      </div>
+      <div class="problem-card pain">
+        <div class="pc-icon">🗣️</div>
+        <div class="pc-title">22 Languages Treated as Afterthoughts</div>
+        <div class="pc-desc">YouTube's algorithm and UI is English/Hindi-first. Tamil, Telugu, Bengali, Marathi, Kannada creators get systematically lower reach, lower RPMs, and zero language-first discovery. 60% of India's internet users consume content in non-Hindi languages — yet the platform treats them as secondary.</div>
+        <span class="pc-stat" style="color:var(--red)">60%</span>
+        <span class="pc-stat-label">of users underserved by language-first features</span>
+      </div>
+      <div class="problem-card opportunity">
+        <div class="pc-icon">🚀</div>
+        <div class="pc-title">The Window Is Open — Right Now</div>
+        <div class="pc-desc">TikTok India was banned in 2020. MX TakaTak and ShareChat showed Indian alternatives can scale fast. Government's Digital India push creates policy tailwind. No Indian player has yet built a full YouTube-level platform. The moment to capture this market is 2025–2026 — before YouTube deepens its India-specific moat.</div>
+        <span class="pc-stat" style="color:var(--green-india)">2025</span>
+        <span class="pc-stat-label">last window before YouTube locks in Indian creators</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: TARGET USER ── -->
+  <div class="cs-section">
+    <div class="cs-section-header">
+      <div class="cs-section-num">02</div>
+      <div class="cs-section-title-block">
+        <div class="cs-section-label">Target User — v1</div>
+        <div class="cs-section-title">Tier 1 Indian Creators: The Supply Side</div>
+      </div>
+    </div>
+
+    <div class="persona-layout">
+      <!-- Persona Card -->
+      <div class="persona-card">
+        <div class="persona-card-top">
+          <div class="persona-avatar">AK</div>
+          <div class="persona-name">Alakh Pandey</div>
+          <div class="persona-role">Founder, Physics Wallah · 10M+ subscribers · Lucknow → Pan India</div>
+          <div class="persona-tags">
+            <span class="p-tag">Education Creator</span>
+            <span class="p-tag">Hindi-first</span>
+            <span class="p-tag">JEE / NEET</span>
+            <span class="p-tag">10M subscribers</span>
+            <span class="p-tag">₹50L+/mo revenue</span>
+          </div>
+        </div>
+        <div class="persona-card-body">
+          <div class="persona-field">
+            <div class="pf-label">Who they are</div>
+            <div class="pf-val">Full-time creator with 5+ years on YouTube. Has a team of 10–50 people. Revenue is the business — they treat their channel like a startup.</div>
+          </div>
+          <div class="persona-field">
+            <div class="pf-label">Primary platform</div>
+            <div class="pf-val">YouTube (mandatory). They know they're dependent on one US company and don't like it. Actively looking for alternatives or diversification.</div>
+          </div>
+          <div class="persona-field">
+            <div class="pf-label">Biggest fear</div>
+            <div class="pf-val">Demonetisation, channel strike, or algorithm change wiping out their entire income source overnight — with no recourse.</div>
+          </div>
+          <div class="persona-field">
+            <div class="pf-label">What makes them switch</div>
+            <div class="pf-val">Better economics (higher take-home), tools that genuinely understand Indian creators (UPI, Hindi analytics), and data sovereignty they can point to for brand deals.</div>
+          </div>
+          <div class="persona-field">
+            <div class="pf-label">Archetypes (real examples)</div>
+            <div class="pf-val">Physics Wallah, Sandeep Maheshwari, CA Rachana Ranade, Nikhil Kamath, Unmesh Dinda, Elvish Yadav, Technical Guruji</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side -->
+      <div class="persona-right">
+        <div class="persona-pain-gain">
+          <div class="pg-card pains">
+            <div class="pg-title">😤 Pains on YouTube</div>
+            <div class="pg-item"><span class="pg-dot"></span>45% revenue taken, 30-day payout delay</div>
+            <div class="pg-item"><span class="pg-dot"></span>USD payments with forex losses on every transfer</div>
+            <div class="pg-item"><span class="pg-dot"></span>No Hindi/regional language analytics</div>
+            <div class="pg-item"><span class="pg-dot"></span>Algorithm changes with zero notice or appeal</div>
+            <div class="pg-item"><span class="pg-dot"></span>No collab discovery — finding partners is manual DMs</div>
+            <div class="pg-item"><span class="pg-dot"></span>Live super chats: Google takes 30% + payment delays</div>
+            <div class="pg-item"><span class="pg-dot"></span>No education-specific tools (doubt boards, quizzes)</div>
+          </div>
+          <div class="pg-card gains">
+            <div class="pg-title">✅ Gains on BharatStream</div>
+            <div class="pg-item"><span class="pg-dot"></span>0% cut on first ₹50K/month, then 15% (vs 45%)</div>
+            <div class="pg-item"><span class="pg-dot"></span>Instant UPI payout — same day, INR direct</div>
+            <div class="pg-item"><span class="pg-dot"></span>District & tehsil-level audience analytics</div>
+            <div class="pg-item"><span class="pg-dot"></span>Indian law governs content — no US DMCA risk</div>
+            <div class="pg-item"><span class="pg-dot"></span>Collab Board: discover partners by niche + language</div>
+            <div class="pg-item"><span class="pg-dot"></span>UPI Super Thanks: zero fee under ₹500</div>
+            <div class="pg-item"><span class="pg-dot"></span>AI Doubt Engine for live education streams</div>
+          </div>
+        </div>
+
+        <div class="journey-card">
+          <div class="journey-title">Creator Journey on BharatStream</div>
+          <div class="journey-steps">
+            <div class="j-step">
+              <div class="j-dot done-dot">📋</div>
+              <div class="j-label">Signs up, imports YouTube channel data</div>
+            </div>
+            <div class="j-step">
+              <div class="j-dot done-dot">🎙️</div>
+              <div class="j-label">First video — auto-dubbed in 3 languages</div>
+            </div>
+            <div class="j-step">
+              <div class="j-dot done-dot">💰</div>
+              <div class="j-label">First UPI payout — same day, zero fees</div>
+            </div>
+            <div class="j-step">
+              <div class="j-dot bs-dot">🔴</div>
+              <div class="j-label">Goes live with AI Doubt Engine enabled</div>
+            </div>
+            <div class="j-step">
+              <div class="j-dot bs-dot">📊</div>
+              <div class="j-label">Sees district analytics — grows in Tier 2 cities</div>
+            </div>
+            <div class="j-step">
+              <div class="j-dot pain-dot">🎟️</div>
+              <div class="j-label">Hosts first ticketed BharatLive event</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-tier1">
+          <div class="wt1-title">Why Tier 1 Creators First — The Strategic Logic</div>
+          <div class="wt1-items">
+            <div class="wt1-item">
+              <div class="wt1-icon">🧲</div>
+              <div class="wt1-text"><strong>Audiences follow creators</strong>If Physics Wallah moves, 10M viewers follow. Win supply side first — demand comes automatically.</div>
+            </div>
+            <div class="wt1-item">
+              <div class="wt1-icon">💎</div>
+              <div class="wt1-text"><strong>They have the most to gain</strong>A creator earning ₹50L/month saves ₹15L+ monthly by switching. The incentive is enormous.</div>
+            </div>
+            <div class="wt1-item">
+              <div class="wt1-icon">📣</div>
+              <div class="wt1-text"><strong>Free marketing flywheel</strong>When big creators talk about BharatStream, it creates press, trust, and FOMO for smaller creators.</div>
+            </div>
+            <div class="wt1-item">
+              <div class="wt1-icon">🏆</div>
+              <div class="wt1-text"><strong>Same playbook as Hotstar</strong>Hotstar won cricket first → expanded to all content. We win education creators → expand to all verticals.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: CORE DIFFERENTIATORS ── -->
+  <div class="cs-section">
+    <div class="cs-section-header">
+      <div class="cs-section-num">03</div>
+      <div class="cs-section-title-block">
+        <div class="cs-section-label">Core Feature Differentiators</div>
+        <div class="cs-section-title">What BharatStream has that YouTube never will</div>
+      </div>
+    </div>
+
+    <div class="diff-intro">
+      <div class="diff-intro-col">
+        <h3 style="color:var(--red)">🔴 YouTube's India Problem</h3>
+        <table class="diff-table">
+          <tr><td class="dt-dimension">Revenue model</td><td class="dt-yt">Takes 45%, pays USD after 30 days</td></tr>
+          <tr><td class="dt-dimension">Data storage</td><td class="dt-yt">US servers, US jurisdiction</td></tr>
+          <tr><td class="dt-dimension">Languages</td><td class="dt-yt">Subtitles only, algorithm English-biased</td></tr>
+          <tr><td class="dt-dimension">Creator tools</td><td class="dt-yt">Generic, not India-specific</td></tr>
+          <tr><td class="dt-dimension">Live streams</td><td class="dt-yt">Basic chat, 30% super chat cut</td></tr>
+          <tr><td class="dt-dimension">Ticketing</td><td class="dt-yt">Not available</td></tr>
+          <tr><td class="dt-dimension">Commerce</td><td class="dt-yt">USD-based, Amazon integration</td></tr>
+          <tr><td class="dt-dimension">Analytics</td><td class="dt-yt">Country-level only</td></tr>
+        </table>
+      </div>
+      <div class="diff-intro-col">
+        <h3 style="color:var(--green-india)">🟢 BharatStream's Answer</h3>
+        <table class="diff-table">
+          <tr><td class="dt-dimension">Revenue model</td><td class="dt-bs">0% up to ₹50K, instant UPI same day</td></tr>
+          <tr><td class="dt-dimension">Data storage</td><td class="dt-bs">Indian data centers, Indian law only</td></tr>
+          <tr><td class="dt-dimension">Languages</td><td class="dt-bs">AI dubbing into all 22 official languages</td></tr>
+          <tr><td class="dt-dimension">Creator tools</td><td class="dt-bs">UPI, Aadhaar, ONDC, festival algo</td></tr>
+          <tr><td class="dt-dimension">Live streams</td><td class="dt-bs">AI Doubt Engine, zero fee UPI gifts</td></tr>
+          <tr><td class="dt-dimension">Ticketing</td><td class="dt-bs">Native BharatLive with UPI payments</td></tr>
+          <tr><td class="dt-dimension">Commerce</td><td class="dt-bs">ONDC integration, INR, no middleman</td></tr>
+          <tr><td class="dt-dimension">Analytics</td><td class="dt-bs">District + tehsil-level heatmaps</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="diff-cards">
+      <div class="diff-card">
+        <div class="diff-rank">DIFFERENTIATOR #1 · ECONOMICS</div>
+        <div class="diff-title">UPI-Native Monetization</div>
+        <div class="diff-desc">The most fundamental difference. BharatStream's entire payment stack runs on UPI — India's own payment rail. No USD conversion, no 30-day wait, no Google tax. Creators keep the most money they've ever made.</div>
+        <div class="diff-compare">
+          <div class="dc-row dc-yt">✗ YouTube: 45% cut + forex + 30-day delay</div>
+          <div class="dc-row dc-bs">✓ BharatStream: 0% up to ₹50K, instant UPI</div>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-rank">DIFFERENTIATOR #2 · AI</div>
+        <div class="diff-title">AI Doubt Engine for Live</div>
+        <div class="diff-desc">During education live streams, viewers flood the chat with 10,000 questions. AI clusters them by topic, surfaces the top 5 doubts, translates them to the creator's language, and removes spam. No human moderator needed. A game-changer for the ₹30,000Cr Indian edtech market.</div>
+        <div class="diff-compare">
+          <div class="dc-row dc-yt">✗ YouTube: raw comment stream, creator overwhelmed</div>
+          <div class="dc-row dc-bs">✓ BharatStream: AI-curated, ranked, translated doubts</div>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-rank">DIFFERENTIATOR #3 · LANGUAGE</div>
+        <div class="diff-title">One Upload → 22 Languages</div>
+        <div class="diff-desc">Creator uploads one Hindi or English video. BharatStream auto-dubs it into Tamil, Telugu, Bengali, Marathi, Kannada, Gujarati, and 16 more — using an AI clone of the creator's own voice. Reach multiplies 10x with zero extra effort.</div>
+        <div class="diff-compare">
+          <div class="dc-row dc-yt">✗ YouTube: auto-captions only, no dubbing</div>
+          <div class="dc-row dc-bs">✓ BharatStream: AI voice cloning in 22 languages</div>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-rank">DIFFERENTIATOR #4 · DISTRIBUTION</div>
+        <div class="diff-title">IRCTC + Railway Wi-Fi</div>
+        <div class="diff-desc">500 million train journeys per year. BharatStream pre-loads content onto Indian Railways Wi-Fi — Rajdhani, Shatabdi, Jan Shatabdi. Passengers watch free for the duration of their journey. No YouTube can replicate this government partnership.</div>
+        <div class="diff-compare">
+          <div class="dc-row dc-yt">✗ YouTube: no transport partnerships, needs data</div>
+          <div class="dc-row dc-bs">✓ BharatStream: pre-loaded on 500M annual journeys</div>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-rank">DIFFERENTIATOR #5 · TRUST</div>
+        <div class="diff-title">Aadhaar Creator Verification</div>
+        <div class="diff-desc">Optional DigiLocker-linked Aadhaar verification gives creators a government-verified badge. Eliminates impersonation. Brands pay 30–50% more to advertise with verified creators. Indian viewers trust Aadhaar-verified creators for financial and health advice.</div>
+        <div class="diff-compare">
+          <div class="dc-row dc-yt">✗ YouTube: phone + email verification only</div>
+          <div class="dc-row dc-bs">✓ BharatStream: Aadhaar + DigiLocker verified</div>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-rank">DIFFERENTIATOR #6 · SOVEREIGNTY</div>
+        <div class="diff-title">Data Sovereignty — India Only</div>
+        <div class="diff-desc">100% of data stored in Indian data centers (Mumbai, Hyderabad, Chennai). Governed exclusively by Indian law. Government compliance without US DMCA. Creators own their channel data and can export it anytime. This is the infrastructure argument that no Indian politician can ignore.</div>
+        <div class="diff-compare">
+          <div class="dc-row dc-yt">✗ YouTube: US jurisdiction, US takedown power</div>
+          <div class="dc-row dc-bs">✓ BharatStream: Indian courts, Indian data, Indian law</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-bar">
+      <div class="ib-text">
+        <h3>The PM's Strategic Insight</h3>
+        <p>YouTube's moat is network effects and creator inertia — not product superiority. BharatStream wins by offering a 10x better deal on economics (0% cut), a 10x better product for Indian workflows (UPI, Hindi, Aadhaar), and a 10x better distribution story (IRCTC, government). You don't beat YouTube on content volume — you beat it by making every rupee earned and every viewer reached feel more Indian.</p>
+      </div>
+      <button class="ib-action" onclick="document.querySelector('.nav-tab:nth-child(2)').click()">See the full app →</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════ HOME ═══════════════════════════ -->
+<div class="section" id="home">
+<div class="home-layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Discover</div>
+      <div class="sidebar-item active">
+        <svg class="sidebar-icon" viewBox="0 0 18 18" fill="none"><path d="M2 9h14M9 2v14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="2" width="6" height="6" rx="2" fill="currentColor" opacity="0.15"/></svg>
+        For You
+      </div>
+      <div class="sidebar-item">
+        <svg class="sidebar-icon" viewBox="0 0 18 18" fill="none"><path d="M3 14l6-11 6 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Trending
+      </div>
+      <div class="sidebar-item">
+        <svg class="sidebar-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="3" fill="currentColor" opacity="0.15"/><path d="M9 2v2M9 14v2M2 9h2M14 9h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        BharatLive
+      </div>
+      <div class="sidebar-item">
+        <svg class="sidebar-icon" viewBox="0 0 18 18" fill="none"><rect x="2" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 5V4a3 3 0 016 0v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Education Hub
+      </div>
+      <div class="sidebar-item">
+        <svg class="sidebar-icon" viewBox="0 0 18 18" fill="none"><path d="M2 12l5-5 3 3 5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        BharatReels
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Your Language</div>
+      <div class="lang-selector">
+        <span class="lang-chip-small active" onclick="toggleLang(this)">Hindi</span>
+        <span class="lang-chip-small" onclick="toggleLang(this)">தமிழ்</span>
+        <span class="lang-chip-small" onclick="toggleLang(this)">తెలుగు</span>
+        <span class="lang-chip-small" onclick="toggleLang(this)">বাংলা</span>
+        <span class="lang-chip-small" onclick="toggleLang(this)">ਪੰਜਾਬੀ</span>
+        <span class="lang-chip-small" onclick="toggleLang(this)">मराठी</span>
+        <span class="lang-chip-small" onclick="toggleLang(this)">ಕನ್ನಡ</span>
+        <span class="lang-chip-small" onclick="toggleLang(this)">+15</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Mood Mode</div>
+      <div style="padding: 0 8px;">
+        <div class="sidebar-item" onclick="toggleMoodMode(this, 'Study')">📚 Study Mode</div>
+        <div class="sidebar-item" onclick="toggleMoodMode(this, 'Chill')">😌 Chill Mode</div>
+        <div class="sidebar-item" onclick="toggleMoodMode(this, 'News')">📰 News Mode</div>
+        <div class="sidebar-item" onclick="toggleMoodMode(this, 'Devotional')">🪔 Devotional</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Feed -->
+  <div class="feed">
+    <div class="feed-hero">
+      <div class="feed-hero-text">
+        <div class="hero-badge">
+          <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#FF6B00"/></svg>
+          <span>India's sovereign video platform</span>
+        </div>
+        <h2>Namaste, Physics Wallah 👋</h2>
+        <p>Your feed is personalised in Hindi + English. 3 creators are live right now in your niche.</p>
+      </div>
+      <div class="feed-hero-visual">
+        <div class="play-big" onclick="alert('BharatStream: Playing your top recommendation!')">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><polygon points="7,4 19,11 7,18" fill="white"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mood-Based Rec (India-only feature) -->
+    <div class="feed-section-title">
+      Trending in India <span class="exclusive-badge">LIVE NOW</span>
+    </div>
+    <div class="video-grid">
+      <div class="video-card" onclick="showSection('features', document.querySelector('.nav-tab:nth-child(2)'))">
+        <div class="video-thumb">
+          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #1A3A6B 0%, #0F2040 100%);"></div>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="position:relative;z-index:1"><polygon points="8,5 23,14 8,23" fill="rgba(255,255,255,0.7)"/></svg>
+          <div class="thumb-live">🔴 LIVE</div>
+          <div class="thumb-label">2.1L watching</div>
+        </div>
+        <div class="creator-row"><div class="creator-dot" style="background:#FF6B00"></div><span style="font-size:11px;color:var(--text-muted)">Physics Wallah</span></div>
+        <div class="video-title-text">Class 12 Physics — Wave Optics Masterclass</div>
+        <div class="video-meta-text">Hindi · JEE 2025 · Live Q&A enabled</div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #1A7A4A 0%, #0D4A2D 100%);"></div>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="position:relative;z-index:1"><polygon points="8,5 23,14 8,23" fill="rgba(255,255,255,0.7)"/></svg>
+          <div class="thumb-feature">🇮🇳 BHARAT ONLY</div>
+          <div class="thumb-label">45 min</div>
+        </div>
+        <div class="creator-row"><div class="creator-dot" style="background:#1A7A4A"></div><span style="font-size:11px;color:var(--text-muted)">Sandeep Maheshwari</span></div>
+        <div class="video-title-text">Success Ka Asli Matlab — Motivational Talk</div>
+        <div class="video-meta-text">Hindi · 5.3L views · AI subtitles in 10 langs</div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #5B3FD4 0%, #3A2490 100%);"></div>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="position:relative;z-index:1"><polygon points="8,5 23,14 8,23" fill="rgba(255,255,255,0.7)"/></svg>
+          <div class="thumb-label">28 min</div>
+        </div>
+        <div class="creator-row"><div class="creator-dot" style="background:#5B3FD4"></div><span style="font-size:11px;color:var(--text-muted)">CA Rachana Ranade</span></div>
+        <div class="video-title-text">Stock Market Basics in Tamil — Beginner Guide</div>
+        <div class="video-meta-text">Tamil · 1.8L views · UPI Gift enabled</div>
+      </div>
+    </div>
+
+    <div class="feed-section-title">
+      Education Hub <span class="exclusive-badge">JEE / NEET / UPSC</span>
+    </div>
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-thumb">
+          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #E8A020 0%, #8A5500 100%);"></div>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="position:relative;z-index:1"><polygon points="8,5 23,14 8,23" fill="rgba(255,255,255,0.7)"/></svg>
+          <div class="thumb-label">2h 10m</div>
+        </div>
+        <div class="creator-row"><div class="creator-dot" style="background:#E8A020"></div><span style="font-size:11px;color:var(--text-muted)">Unacademy</span></div>
+        <div class="video-title-text">UPSC Prelims 2025 — Complete GS Paper 1</div>
+        <div class="video-meta-text">Hindi · 89K views · Downloadable notes</div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #D93025 0%, #7A1810 100%);"></div>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="position:relative;z-index:1"><polygon points="8,5 23,14 8,23" fill="rgba(255,255,255,0.7)"/></svg>
+          <div class="thumb-feature">🏅 VERIFIED</div>
+          <div class="thumb-label">1h 22m</div>
+        </div>
+        <div class="creator-row"><div class="creator-dot" style="background:#D93025"></div><span style="font-size:11px;color:var(--text-muted)">NEET Wallah</span></div>
+        <div class="video-title-text">Human Physiology Full Revision — NEET 2025</div>
+        <div class="video-meta-text">Hindi+English · 2.2L views</div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #0E8F7A 0%, #054A40 100%);"></div>
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="position:relative;z-index:1"><polygon points="8,5 23,14 8,23" fill="rgba(255,255,255,0.7)"/></svg>
+          <div class="thumb-label">55 min</div>
+        </div>
+        <div class="creator-row"><div class="creator-dot" style="background:#0E8F7A"></div><span style="font-size:11px;color:var(--text-muted)">Vedantu</span></div>
+        <div class="video-title-text">Class 10 Maths — Trigonometry Full Chapter</div>
+        <div class="video-meta-text">Telugu · 1.1L views · AI doubt-clearing</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <div class="rp-section">
+      <div class="rp-title">Mood Mode</div>
+      <div class="mood-grid">
+        <div class="mood-chip active" onclick="toggleMood(this)">📚 Study</div>
+        <div class="mood-chip" onclick="toggleMood(this)">😌 Chill</div>
+        <div class="mood-chip" onclick="toggleMood(this)">📰 News</div>
+        <div class="mood-chip" onclick="toggleMood(this)">🪔 Devotional</div>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.5">YouTube doesn't have this. Your feed changes based on time of day & mood.</p>
+    </div>
+
+    <div class="rp-section">
+      <div class="rp-title">Creator Collab Board</div>
+      <div class="collab-row">
+        <div class="collab-avatar" style="background:#FF6B00">PW</div>
+        <div class="collab-info">
+          <div class="collab-name">Physics Wallah</div>
+          <div class="collab-sub">Open to collabs · JEE/NEET</div>
+        </div>
+        <button class="collab-btn">Request</button>
+      </div>
+      <div class="collab-row">
+        <div class="collab-avatar" style="background:#1A7A4A">SM</div>
+        <div class="collab-info">
+          <div class="collab-name">Sandeep Maheshwari</div>
+          <div class="collab-sub">Open to collabs · Motivation</div>
+        </div>
+        <button class="collab-btn">Request</button>
+      </div>
+      <div class="collab-row">
+        <div class="collab-avatar" style="background:#5B3FD4">RR</div>
+        <div class="collab-info">
+          <div class="collab-name">CA Rachana Ranade</div>
+          <div class="collab-sub">Open to collabs · Finance</div>
+        </div>
+        <button class="collab-btn">Request</button>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:10px;line-height:1.5">YouTube has no collab discovery. BharatStream connects creators directly.</p>
+    </div>
+
+    <div class="rp-section">
+      <div class="rp-title">Live Doubt Board</div>
+      <div style="background: var(--cream-mid); border-radius: 10px; padding: 12px;">
+        <div style="font-size:12px;font-weight:500;margin-bottom:8px;">Wave Optics — Physics Wallah Live</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-bottom:6px;line-height:1.5">💬 <b>Ravi, Patna:</b> Sir, Huygens ke baare mein ek baar aur explain karein?</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-bottom:6px;line-height:1.5">💬 <b>Priya, Chennai:</b> What's the difference between coherent & incoherent sources?</div>
+        <div style="font-size:11px;padding:6px 10px;background:white;border-radius:6px;border:1px solid var(--border);color:var(--text-muted)">Ask your doubt in Hindi/English...</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════ FEATURES ═══════════════════════════ -->
+<div class="section" id="features">
+<div class="features-page">
+  <div class="features-header">
+    <div class="overline">Platform Capabilities</div>
+    <h1>Features YouTube <span>doesn't</span> have</h1>
+    <p>BharatStream is built ground-up for India — not adapted from a Western product. Here's what that means in practice.</p>
+  </div>
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon fi-saffron">🎭</div>
+      <div class="feature-title">Mood-Based Feed</div>
+      <div class="feature-desc">Your feed changes based on time of day, day of week, and your mood input. Study mode in mornings, chill at night. Devotional on festival days. Context-aware algorithm.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="youtube-badge">✗ YouTube: no mood context</span>
+        <span class="bharat-badge">✓ BharatStream: mood-first feed</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon fi-green">🤝</div>
+      <div class="feature-title">Creator Collab Board</div>
+      <div class="feature-desc">Creators can publicly signal they're open to collaborations. Matched by niche, language, and audience size. Built-in outreach + contract templates.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="youtube-badge">✗ YouTube: no collab discovery</span>
+        <span class="bharat-badge">✓ BharatStream: collab marketplace</span>
+      </div>
+    </div>
+
+    <div class="feature-card highlight">
+      <div class="feature-icon fi-navy">💸</div>
+      <div class="feature-title">0% Cut — First ₹50K/Month</div>
+      <div class="feature-desc">YouTube takes 45% of ad revenue. BharatStream takes 0% on the first ₹50,000/month earned by each creator — to grow the ecosystem and reward early adopters.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="background:rgba(255,100,100,0.15);border:1px solid rgba(255,100,100,0.3);border-radius:6px;padding:3px 8px;font-size:10px;color:#ff8080;font-weight:500;">✗ YouTube: 45% platform cut</span>
+        <span class="bharat-badge">✓ BharatStream: 0% up to ₹50K</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">🧠</div>
+      <div class="feature-title">Live AI Doubt Clearing</div>
+      <div class="feature-desc">During education live streams, viewers submit doubts. AI filters, clusters, and surfaces the top doubts to the creator in real-time. Creator answers; AI translates to all 22 languages.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="youtube-badge">✗ YouTube: basic live chat only</span>
+        <span class="bharat-badge">✓ BharatStream: AI doubt engine</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon fi-amber">📥</div>
+      <div class="feature-title">Offline-First for Bharat</div>
+      <div class="feature-desc">Download videos at railway stations, bus stands, and government-partnered Wi-Fi hotspots for free. No subscription needed. Content expires in 7 days.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="youtube-badge">✗ YouTube: offline = Premium only</span>
+        <span class="bharat-badge">✓ BharatStream: free at hotspots</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon fi-teal">🎟️</div>
+      <div class="feature-title">BharatLive — Ticketed Events</div>
+      <div class="feature-desc">Creators can host ticketed live events with UPI payments. No third-party ticketing needed. Revenue split: 90% creator, 10% platform. Instant INR settlement.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="youtube-badge">✗ YouTube: no ticketing</span>
+        <span class="bharat-badge">✓ BharatStream: native ticketing</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon fi-saffron">🗣️</div>
+      <div class="feature-title">22-Language AI Dubbing</div>
+      <div class="feature-desc">Creators upload once. BharatStream auto-dubs into all 22 official Indian languages using AI voice cloning — matching the creator's own voice. One-click publish to all language feeds.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="youtube-badge">✗ YouTube: subtitles only</span>
+        <span class="bharat-badge">✓ BharatStream: AI voice dubbing</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon fi-green">📊</div>
+      <div class="feature-title">Village-Level Analytics</div>
+      <div class="feature-desc">Analytics drilled down to district and tehsil level. Creators can see exactly which cities, towns, and rural areas their content reaches. Run hyper-local campaigns.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="youtube-badge">✗ YouTube: country-level only</span>
+        <span class="bharat-badge">✓ BharatStream: tehsil-level data</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">🔒</div>
+      <div class="feature-title">Data Sovereignty — India Only</div>
+      <div class="feature-desc">All data stored in Indian data centers (Mumbai, Hyderabad, Chennai). No US government can issue a takedown. Governed by Indian law only. Creators own their channel data forever.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="youtube-badge">✗ YouTube: US data jurisdiction</span>
+        <span class="bharat-badge">✓ BharatStream: Indian jurisdiction</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════ INDIA-ONLY ═══════════════════════════ -->
+<div class="section" id="exclusive">
+<div class="exclusive-section">
+  <div class="overline" style="font-size:12px;font-weight:600;color:var(--saffron);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Exclusive to India</div>
+  <h1>Features only possible in Bharat</h1>
+  <p class="sub">These aren't adaptations of YouTube features. These are India-native features that could never exist on a Western platform.</p>
+  <div class="ex-grid">
+
+    <div class="ex-card">
+      <div class="ex-num">01</div>
+      <div class="ex-title">UPI Super Thanks — Instant Gifting</div>
+      <div class="ex-desc">Viewers can gift creators via UPI with zero friction. Scan QR in video overlay → pay → creator receives in real-time with zero transaction fee on gifts under ₹500. Builds Guru-Shishya gifting culture into the product.</div>
+      <div class="ex-tags">
+        <span class="ex-tag">UPI Native</span>
+        <span class="ex-tag">Zero Fee ≤ ₹500</span>
+        <span class="ex-tag">Real-Time Settlement</span>
+      </div>
+      <div class="vs-row">
+        <span class="vs-no">✗ YouTube Super Thanks: USD only, 30% Google cut</span>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">02</div>
+      <div class="ex-title">Festival Algorithm — Calendar-Based Feed</div>
+      <div class="ex-desc">The algorithm knows the Indian festival calendar (Diwali, Eid, Pongal, Navratri, Onam, etc.) and automatically surfaces relevant content 3 days before each festival — localized by state and religion.</div>
+      <div class="ex-tags">
+        <span class="ex-tag">200+ Indian Festivals</span>
+        <span class="ex-tag">State-Specific</span>
+        <span class="ex-tag">Religion-Aware</span>
+      </div>
+      <div class="vs-row">
+        <span class="vs-no">✗ YouTube: has no festival awareness</span>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">03</div>
+      <div class="ex-title">Aadhaar Creator Verification</div>
+      <div class="ex-desc">Optional Aadhaar-based creator verification (with DigiLocker integration) gives creators a government-verified "Real Creator" badge. Eliminates fake impersonation accounts. Trusted by viewers, banks, and brand partners.</div>
+      <div class="ex-tags">
+        <span class="ex-tag">DigiLocker Linked</span>
+        <span class="ex-tag">Optional Consent</span>
+        <span class="ex-tag">Trust Signal for Brands</span>
+      </div>
+      <div class="vs-row">
+        <span class="vs-no">✗ YouTube: only phone + email verification</span>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">04</div>
+      <div class="ex-title">ONDC Commerce Integration</div>
+      <div class="ex-desc">Creators selling products (courses, books, merchandise) can list directly on ONDC — India's open commerce network. Viewers can buy without leaving BharatStream. Settlement in INR via UPI. No Amazon/Razorpay middleman.</div>
+      <div class="ex-tags">
+        <span class="ex-tag">ONDC Native</span>
+        <span class="ex-tag">In-Video Shopping</span>
+        <span class="ex-tag">UPI Checkout</span>
+      </div>
+      <div class="vs-row">
+        <span class="vs-no">✗ YouTube Shopping: USD, no Indian open network</span>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">05</div>
+      <div class="ex-title">Railway & IRCTC Content Mode</div>
+      <div class="ex-desc">Partnership with Indian Railways. BharatStream pre-loads content on train Wi-Fi (Rajdhani, Shatabdi). Passengers watch free for 4 hours on any journey. 500M+ train journeys per year = massive reach.</div>
+      <div class="ex-tags">
+        <span class="ex-tag">IRCTC Partnership</span>
+        <span class="ex-tag">Offline Pre-Load</span>
+        <span class="ex-tag">500M Reach</span>
+      </div>
+      <div class="vs-row">
+        <span class="vs-no">✗ YouTube: no transport partnerships</span>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">06</div>
+      <div class="ex-title">Gram Sabha Broadcast Channel</div>
+      <div class="ex-desc">Panchayats, government schemes, and state governments can broadcast official content to specific PIN codes or districts. Voters and citizens see verified government announcements before any other content.</div>
+      <div class="ex-tags">
+        <span class="ex-tag">Government Verified</span>
+        <span class="ex-tag">PIN-Code Targeting</span>
+        <span class="ex-tag">Free for Panchayats</span>
+      </div>
+      <div class="vs-row">
+        <span class="vs-no">✗ YouTube: no government-civic integration</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════ CREATOR ═══════════════════════════ -->
+<div class="section" id="creator">
+<div class="creator-page">
+
+  <div class="creator-profile-bar">
+    <div class="creator-big-avatar">PW</div>
+    <div class="creator-info">
+      <h2>Physics Wallah <span style="font-size:13px;background:rgba(255,107,0,0.2);color:var(--saffron-light);padding:2px 8px;border-radius:4px;font-family:'DM Sans';margin-left:6px">✓ Aadhaar Verified</span></h2>
+      <p>Education · JEE & NEET · Hindi, English · Uttar Pradesh</p>
+    </div>
+    <div class="creator-stats">
+      <div class="creator-stat"><div class="cs-val">12.4M</div><div class="cs-label">Subscribers</div></div>
+      <div class="creator-stat"><div class="cs-val">₹4.8L</div><div class="cs-label">This Month</div></div>
+      <div class="creator-stat"><div class="cs-val">840K</div><div class="cs-label">Watch Hours</div></div>
+    </div>
+  </div>
+
+  <div class="creator-tools-grid">
+    <div class="tool-card">
+      <div class="tool-new">INDIA-ONLY</div>
+      <div class="tool-icon">🎙️</div>
+      <div class="tool-name">AI Dubbing Studio</div>
+      <div class="tool-desc">Auto-dub any video into 22 Indian languages with your own voice clone</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">📊</div>
+      <div class="tool-name">District Analytics</div>
+      <div class="tool-desc">See viewership heatmaps down to tehsil level across all Indian states</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-new">INDIA-ONLY</div>
+      <div class="tool-icon">🤝</div>
+      <div class="tool-name">Collab Board</div>
+      <div class="tool-desc">Discover and connect with creators in your niche for joint content</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">🎟️</div>
+      <div class="tool-name">BharatLive Events</div>
+      <div class="tool-desc">Schedule ticketed live sessions with UPI payment and auto-certificates</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-new">INDIA-ONLY</div>
+      <div class="tool-icon">🏪</div>
+      <div class="tool-name">ONDC Store</div>
+      <div class="tool-desc">Sell courses, books, and merch directly via India's open commerce network</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">📝</div>
+      <div class="tool-name">Script + Chapters AI</div>
+      <div class="tool-desc">AI generates Hindi/English chapters and timestamps from your video audio</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-new">INDIA-ONLY</div>
+      <div class="tool-icon">🧠</div>
+      <div class="tool-name">Doubt Engine</div>
+      <div class="tool-desc">AI clusters live doubts and serves top questions to you during streams</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">💰</div>
+      <div class="tool-name">BharatPay Dashboard</div>
+      <div class="tool-desc">Full UPI payout history, TDS tracking, and CA-ready income reports</div>
+    </div>
+  </div>
+
+  <div class="earnings-layout">
+    <div class="earnings-main">
+      <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px">Earnings Breakdown — March 2025</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">All figures in INR. 0% platform cut on first ₹50K.</div>
+
+      <div class="bar-chart" id="earningsChart"></div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:20px;padding:0 2px">
+        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+      </div>
+
+      <div class="earnings-row">
+        <div><div class="er-source">Ad Revenue</div><div class="er-sub">1.4L views × ₹0.22 RPM</div></div>
+        <div style="text-align:right"><div class="er-amount">₹3,08,000</div><div class="er-pct">64%</div></div>
+      </div>
+      <div class="earnings-row">
+        <div><div class="er-source">BharatLive Tickets</div><div class="er-sub">480 tickets × ₹299 avg</div></div>
+        <div style="text-align:right"><div class="er-amount">₹1,07,520</div><div class="er-pct">22%</div></div>
+      </div>
+      <div class="earnings-row">
+        <div><div class="er-source">UPI Super Thanks</div><div class="er-sub">1,240 gifts, avg ₹80</div></div>
+        <div style="text-align:right"><div class="er-amount">₹49,600</div><div class="er-pct">10%</div></div>
+      </div>
+      <div class="earnings-row">
+        <div><div class="er-source">ONDC Course Sales</div><div class="er-sub">18 courses sold</div></div>
+        <div style="text-align:right"><div class="er-amount">₹18,000</div><div class="er-pct">4%</div></div>
+      </div>
+      <div style="padding:12px 0;display:flex;justify-content:space-between;border-top:2px solid var(--border-strong);margin-top:4px">
+        <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700">Total</div>
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--green-india)">₹4,83,120</div>
+      </div>
+    </div>
+
+    <div class="earnings-sidebar-panel">
+      <div class="payout-card">
+        <div style="font-size:12px;color:var(--text-muted)">Available to withdraw</div>
+        <div class="payout-amount-big">₹4,83,120</div>
+        <div style="font-size:11px;color:var(--green-india);margin-bottom:12px">0% platform cut on first ₹50K ✓</div>
+        <button class="withdraw-btn">Withdraw via UPI / NEFT</button>
+        <div class="upi-options">
+          <button class="upi-opt">PhonePe</button>
+          <button class="upi-opt">GPay</button>
+          <button class="upi-opt">Paytm</button>
+          <button class="upi-opt">BHIM</button>
+        </div>
+      </div>
+      <div class="payout-card">
+        <div style="font-size:12px;font-weight:600;margin-bottom:10px;font-family:'Syne',sans-serif">Tax & Compliance</div>
+        <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:10px">TDS auto-calculated per IT Act Section 194O. CA-ready CSV available for download.</div>
+        <div style="font-size:11px;background:var(--green-light);color:var(--green-india);padding:6px 10px;border-radius:6px">✓ ITR-ready reports in 1 click</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════ ROADMAP ═══════════════════════════ -->
+<div class="section" id="roadmap">
+<div class="roadmap-page">
+  <div class="roadmap-header">
+    <div class="overline">Product Roadmap</div>
+    <h1>From 0 to India's default video platform</h1>
+    <p>A 3-year phased strategy: win education creators → expand to all verticals → build the full sovereign ecosystem.</p>
+  </div>
+
+  <div class="roadmap-timeline">
+
+    <!-- Phase 0 -->
+    <div class="phase">
+      <div class="phase-time"><div class="phase-quarter">Q1 2025</div><div class="phase-label">Foundation</div></div>
+      <div class="phase-dot done"></div>
+      <div class="phase-content">
+        <div class="phase-name">Phase 0 — Foundations <span class="phase-status ps-done">Completed</span></div>
+        <div class="phase-desc">Build the base platform. Core video upload, playback, and creator accounts. India-hosted infrastructure on AWS Mumbai + Jio Cloud. Hindi-first UI.</div>
+        <div class="feature-pills">
+          <span class="pill pill-done"><span class="pill-dot"></span>Video upload + transcoding</span>
+          <span class="pill pill-done"><span class="pill-dot"></span>Creator accounts</span>
+          <span class="pill pill-done"><span class="pill-dot"></span>Hindi + English UI</span>
+          <span class="pill pill-done"><span class="pill-dot"></span>India data centers</span>
+          <span class="pill pill-done"><span class="pill-dot"></span>UPI integration</span>
+          <span class="pill pill-done"><span class="pill-dot"></span>Basic analytics</span>
+        </div>
+        <div class="metrics-row">
+          <div class="metric-target"><div class="mt-label">Target creators</div><div class="mt-val">500</div></div>
+          <div class="metric-target"><div class="mt-label">Niche focus</div><div class="mt-val">JEE/NEET</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="phase-time"><div class="phase-quarter">Q2–Q3 2025</div><div class="phase-label">Creator Growth</div></div>
+      <div class="phase-dot active"></div>
+      <div class="phase-content">
+        <div class="phase-name">Phase 1 — Win Education Creators <span class="phase-status ps-active">In Progress</span></div>
+        <div class="phase-desc">Aggressively sign top 100 JEE/NEET/UPSC creators. Offer 0% cut for 2 years. Launch AI Doubt Engine for live streams — the killer feature no competitor has.</div>
+        <div class="feature-pills">
+          <span class="pill pill-active"><span class="pill-dot"></span>AI Doubt Engine (live)</span>
+          <span class="pill pill-active"><span class="pill-dot"></span>BharatLive ticketing</span>
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>UPI Super Thanks</span>
+          <span class="pill pill-active"><span class="pill-dot"></span>Creator Collab Board</span>
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>Aadhaar Verification</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>Mobile app (Android)</span>
+        </div>
+        <div class="metrics-row">
+          <div class="metric-target"><div class="mt-label">Creator target</div><div class="mt-val">10,000</div></div>
+          <div class="metric-target"><div class="mt-label">MAU target</div><div class="mt-val">5M</div></div>
+          <div class="metric-target"><div class="mt-label">Creator payout</div><div class="mt-val">₹10Cr/mo</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-time"><div class="phase-quarter">Q4 2025 – Q2 2026</div><div class="phase-label">Language Scale</div></div>
+      <div class="phase-dot upcoming"></div>
+      <div class="phase-content">
+        <div class="phase-name">Phase 2 — All 22 Languages <span class="phase-status ps-upcoming">Upcoming</span></div>
+        <div class="phase-desc">Launch AI dubbing into all 22 official Indian languages. Expand to Tamil, Telugu, Bengali, Marathi creator ecosystems. Partner with IRCTC for train Wi-Fi distribution.</div>
+        <div class="feature-pills">
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>22-Language AI Dubbing</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>IRCTC Partnership</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>Offline Hotspot Network</span>
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>Festival Algorithm</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>iOS App</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>Smart TV App</span>
+        </div>
+        <div class="metrics-row">
+          <div class="metric-target"><div class="mt-label">Creator target</div><div class="mt-val">1L</div></div>
+          <div class="metric-target"><div class="mt-label">MAU target</div><div class="mt-val">50M</div></div>
+          <div class="metric-target"><div class="mt-label">Languages</div><div class="mt-val">22</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-time"><div class="phase-quarter">Q3 2026 – Q2 2027</div><div class="phase-label">Commerce</div></div>
+      <div class="phase-dot upcoming"></div>
+      <div class="phase-content">
+        <div class="phase-name">Phase 3 — Commerce & Government <span class="phase-status ps-upcoming">Upcoming</span></div>
+        <div class="phase-desc">Integrate ONDC for in-video commerce. Launch Gram Sabha channel for government reach. Village-level analytics. District-level branded content market.</div>
+        <div class="feature-pills">
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>ONDC Commerce</span>
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>Gram Sabha Broadcast</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>Village-Level Analytics</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>Brand Marketplace</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>BharatStream for Bharat</span>
+        </div>
+        <div class="metrics-row">
+          <div class="metric-target"><div class="mt-label">MAU target</div><div class="mt-val">200M</div></div>
+          <div class="metric-target"><div class="mt-label">GMV target</div><div class="mt-val">₹500Cr</div></div>
+          <div class="metric-target"><div class="mt-label">Districts covered</div><div class="mt-val">740</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+      <div class="phase-time"><div class="phase-quarter">2027+</div><div class="phase-label">Sovereign OS</div></div>
+      <div class="phase-dot upcoming"></div>
+      <div class="phase-content">
+        <div class="phase-name">Phase 4 — India's Video OS <span class="phase-status ps-upcoming">Vision</span></div>
+        <div class="phase-desc">BharatStream becomes the default video layer for India's digital economy. Integration with DigiYatra, UMANG, BHIM. The internet's video infrastructure — fully sovereign, fully Indian.</div>
+        <div class="feature-pills">
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>DigiYatra Integration</span>
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>UMANG Super App Layer</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>BharatStream API Platform</span>
+          <span class="pill pill-exclusive"><span class="pill-dot"></span>Creator DAO Governance</span>
+          <span class="pill pill-upcoming"><span class="pill-dot"></span>Sub-Saharan Africa Expansion</span>
+        </div>
+        <div class="metrics-row">
+          <div class="metric-target"><div class="mt-label">MAU target</div><div class="mt-val">500M</div></div>
+          <div class="metric-target"><div class="mt-label">Revenue</div><div class="mt-val">₹5000Cr</div></div>
+          <div class="metric-target"><div class="mt-label">Market position</div><div class="mt-val">#1 India</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn && btn.classList) btn.classList.add('active');
+}
+
+function toggleLang(el) { el.classList.toggle('active'); }
+function toggleMood(el) { document.querySelectorAll('.mood-chip').forEach(m => m.classList.remove('active')); el.classList.add('active'); }
+function toggleMoodMode(el, mood) {
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Draw bar chart
+const data = [120, 180, 210, 160, 290, 310];
+const colors = ['#E8E6F5','#D0CCEE','#B8B3E7','#FF8C33','#FF6B00','#1A7A4A'];
+const chart = document.getElementById('earningsChart');
+if (chart) {
+  const max = Math.max(...data);
+  data.forEach((v, i) => {
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = Math.round((v / max) * 72) + 'px';
+    bar.style.background = colors[i];
+    col.appendChild(bar);
+    chart.appendChild(col);
+  });
+}
+</script>
+</body>
+</html>
